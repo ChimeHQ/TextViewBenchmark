@@ -1,11 +1,11 @@
 # TextViewBenchmark
 A suite of performance tests for macOS text views
 
-Every year, I check in on TextKit 2 to see how things are going. It was introduced in macOS 12, and I found it basically unusable. With macOS 12 it was better, but still rough. So far, on macOS 14, it seems like it might be ok. However, I was having some performance problems. So I finally went head and factored that out into a dedicated project. Pretty focused on `NSTextView` right now, but I'm into making it more general if that's helpful to anyone.
+Every year, I check in on TextKit 2 to see how things are going. It was introduced in macOS 12, and I found it basically unusable. With macOS 13 it was better, but still rough. So far, on macOS 14, it seems like it might be ok. However, I was having some performance problems. So I finally went head and factored that out into a dedicated project. Pretty focused on `NSTextView` right now, but I'm into making it more general if that's helpful to anyone.
 
 ## Usage
 
-The tests automated using XCTest's ui performance testing system, backed by custom `OSSignpost`. I find this really wonderful for both repeatibility and Instruments usage.
+The tests are automated using XCTest's UI performance testing system, backed by custom `OSSignpost`. I find this really wonderful for both repeatibility and Instruments usage.
 
 If you want to set up your own view for testing, you can do something like this:
 
