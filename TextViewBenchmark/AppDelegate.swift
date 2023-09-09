@@ -26,6 +26,3 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 		return true
 	}
 }
-
-extension AppDelegate {
-}
