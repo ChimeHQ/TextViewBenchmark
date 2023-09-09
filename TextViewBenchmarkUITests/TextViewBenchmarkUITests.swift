@@ -34,9 +34,9 @@ final class TextViewBenchmarkUITests: XCTestCase {
     }
 
     func testLaunchPerformance() throws {
-		let url = "abcdef"
+		let url = try XCTUnwrap(bundle.url(forResource: "empty", withExtension: "txt"))
 
-		app.launchArguments = ["-testFileURL", url]
+		app.launchArguments = ["-testFileURL", url.path(percentEncoded: false)]
 
         measure(metrics: [XCTApplicationLaunchMetric()]) {
 			app.launch()
@@ -96,6 +96,8 @@ final class TextViewBenchmarkUITests: XCTestCase {
 		app.launchArguments = ["-testFileURL", url.path(percentEncoded: false)]
 
 		let metrics: [XCTMetric] = [
+			XCTOSSignpostMetric.loadStorageMetric,
+			XCTOSSignpostMetric.installStorageMetric,
 			XCTOSSignpostMetric.moveToEndOfDocumentMetric,
 			XCTMemoryMetric(),
 		]
