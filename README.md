@@ -1,7 +1,7 @@
 # TextViewBenchmark
 A suite of performance tests for macOS text views
 
-Every year, I check in on TextKit 2 to see how things are going. It was introduced in macOS 12, and I found it basically unusable. With macOS 13 it was better, but still rough. So far, on macOS 14, it seems like it might be ok. However, I was having some performance problems. So I finally went head and factored that out into a dedicated project. Pretty focused on `NSTextView` right now, but I'm into making it more general if that's helpful to anyone.
+Every year, I check in on TextKit 2 to see how things are going. It was introduced in macOS 12, and I found it basically unusable. With macOS 13 it was better, but still rough. So far, on macOS 14, it seems like it might be ok! I was originally having some performance problems. So, I took some time to put together some automated performance tests.
 
 ## Usage
 
@@ -20,7 +20,7 @@ static func withScrollableTextView() -> TextViewController {
 
 ## Results
 
-I'm using macOS 14 beta, so that may be a factor. But, what I can say is TextKit 1 is extremely fast and TextKit 2... continues to have some room for improvement.
+I'm using macOS 14 beta, so that may be a factor. Based on these tests, TextKit 1 is extremely fast and TextKit 2 actually even a small amount faster!
 
 ## Contributing and Collaboration
 
