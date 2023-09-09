@@ -13,7 +13,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		window.makeKeyAndOrderFront(self)
 
-		try! controller.loadData()
+		guard let path = UserDefaults.standard.string(forKey: "testFileURL") else {
+			return
+		}
+
+		let url = URL(filePath: path, directoryHint: .notDirectory)
+
+		try! controller.loadData(at: url)
 	}
 
 	func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {

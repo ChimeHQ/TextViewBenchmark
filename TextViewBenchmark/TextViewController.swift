@@ -82,15 +82,19 @@ final class TextViewController: NSViewController {
 		])
 
 		self.view = scrollView
+
+		let notes = NotificationCenter
+			.default
+			.notifications(named: NSTextView.willSwitchToNSLayoutManagerNotification, object: textView)
+
+		Task { @MainActor in
+			for await note in notes {
+				print("note:", note)
+			}
+		}
 	}
 
-	func loadData() throws {
-		guard let path = UserDefaults.standard.string(forKey: "testFileURL") else {
-			return
-		}
-
-		let url = URL(filePath: path, directoryHint: .notDirectory)
-
+	func loadData(at url: URL) throws {
 		let attrs: [NSAttributedString.Key : Any] = [
 			.font: NSFont.monospacedSystemFont(ofSize: 12.0, weight: .regular),
 			.foregroundColor: NSColor.textColor,
@@ -105,7 +109,11 @@ final class TextViewController: NSViewController {
 		}
 
 		signposter.withIntervalSignpost(OSSignposter.installStorageName) {
-			textView.layoutManager!.replaceTextStorage(storage)
+			if textView.textLayoutManager != nil {
+				textView.textStorage!.setAttributedString(storage)
+			} else {
+				textView.layoutManager!.replaceTextStorage(storage)
+			}
 		}
 	}
 }
