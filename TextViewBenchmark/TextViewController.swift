@@ -1,6 +1,12 @@
 import AppKit
 import OSLog
 
+final class TK2EnforcedTextView: NSTextView {
+	override var layoutManager: NSLayoutManager? {
+		fatalError()
+	}
+}
+
 final class TextViewController: NSViewController {
 	let textView: NSTextView
 	let scrollView: NSScrollView
@@ -8,7 +14,7 @@ final class TextViewController: NSViewController {
 	let signposter: OSSignposter
 
 	static func withScrollableTextView() -> TextViewController {
-		let scrollView = NSTextView.scrollableTextView()
+		let scrollView = TK2EnforcedTextView.scrollableTextView()
 		let textView = scrollView.documentView as! NSTextView
 
 		return TextViewController(textView: textView, scrollView: scrollView)
@@ -36,7 +42,7 @@ final class TextViewController: NSViewController {
 	}
 
 	static func withManualTextKitTwoConfiguration() -> TextViewController {
-		let textView = NSTextView(usingTextLayoutManager: true)
+		let textView = TK2EnforcedTextView(usingTextLayoutManager: true)
 
 		textView.isVerticallyResizable = true
 		textView.isHorizontallyResizable = true
