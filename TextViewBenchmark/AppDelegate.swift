@@ -6,7 +6,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 	let controller: TextViewController
 
 	override init() {
-		self.controller = TextViewController.withManualTextKitTwoConfiguration()
+		self.controller = TextViewController.withFullTextKit2ObjectNetworkConfiguration()
 		self.window = NSWindow(contentViewController: controller)
 	}
 

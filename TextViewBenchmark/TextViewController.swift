@@ -41,9 +41,7 @@ final class TextViewController: NSViewController {
 		return TextViewController(textView: textView, scrollView: scrollView)
 	}
 
-	static func withManualTextKitTwoConfiguration() -> TextViewController {
-		let textView = TK2EnforcedTextView(usingTextLayoutManager: true)
-
+	private static func withTextView(for textView: NSTextView) -> TextViewController {
 		textView.isVerticallyResizable = true
 		textView.isHorizontallyResizable = true
 		textView.textContainer?.widthTracksTextView = true
@@ -59,6 +57,25 @@ final class TextViewController: NSViewController {
 		scrollView.documentView = textView
 
 		return TextViewController(textView: textView, scrollView: scrollView)
+	}
+
+	static func withManualTextKitTwoConfiguration() -> TextViewController {
+		let textView = TK2EnforcedTextView(usingTextLayoutManager: true)
+
+		return withTextView(for: textView)
+	}
+
+
+	static func withFullTextKit2ObjectNetworkConfiguration() -> TextViewController {
+		let textContainer = NSTextContainer(size: CGSize(width: 0.0, height: 1.0e7))
+		let textContentManager = NSTextContentStorage()
+		let textLayoutManager = NSTextLayoutManager()
+		textLayoutManager.textContainer = textContainer
+		textContentManager.addTextLayoutManager(textLayoutManager)
+
+		let textView = TK2EnforcedTextView(frame: .zero, textContainer: textContainer)
+
+		return withTextView(for: textView)
 	}
 
 	init(textView: NSTextView, scrollView: NSScrollView) {
