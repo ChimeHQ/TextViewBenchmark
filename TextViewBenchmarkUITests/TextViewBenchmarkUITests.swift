@@ -118,6 +118,35 @@ final class TextViewBenchmarkUITests: XCTestCase {
 			stopMeasuring()
 		}
 	}
+
+	func testScrollToEndWithOneMillionSingleAsciiCharacterLineFile() throws {
+		let url = Self.oneMillionSingleAsciiCharacterLineFileURL
+
+		app.launchArguments = ["-testFileURL", url.path(percentEncoded: false)]
+
+		let metrics: [XCTMetric] = [
+			XCTOSSignpostMetric.loadStorageMetric,
+			XCTOSSignpostMetric.installStorageMetric,
+			XCTOSSignpostMetric.moveToEndOfDocumentMetric,
+			XCTMemoryMetric(),
+		]
+
+		let options = XCTMeasureOptions()
+
+		options.invocationOptions = [.manuallyStart, .manuallyStop]
+
+		measure(metrics: metrics, options: options) {
+			app.launch()
+
+			startMeasuring()
+
+			let textView = app.windows.scrollViews.textViews.element
+
+			textView.typeKey(.rightArrow, modifierFlags: [.command])
+
+			stopMeasuring()
+		}
+	}
 }
 
 extension TextViewBenchmarkUITests {
@@ -145,6 +174,21 @@ extension TextViewBenchmarkUITests {
 
 		try! generateTestDocument(at: url) { handle in
 			let data = Data(String(repeating: "a\n", count: 1000).utf8)
+
+			for _ in 0..<1000 {
+				try handle.write(contentsOf: data)
+			}
+		}
+
+		return url
+	}()
+
+	static let oneMillionSingleAsciiCharacterLineFileURL: URL = {
+		let path = NSTemporaryDirectory() + "one_million_single_ascii_character_line.txt"
+		let url = URL(fileURLWithPath: path, isDirectory: false)
+
+		try! generateTestDocument(at: url) { handle in
+			let data = Data(String(repeating: "a", count: 1000).utf8)
 
 			for _ in 0..<1000 {
 				try handle.write(contentsOf: data)
