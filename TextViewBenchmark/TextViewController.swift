@@ -110,8 +110,8 @@ final class TextViewController: NSViewController {
 			.default
 			.notifications(named: NSTextView.willSwitchToNSLayoutManagerNotification, object: textView)
 
-		Task { @MainActor in
-			for await note in notes {
+		Task {
+			for await note in notes.map({ $0.name }) {
 				print("note:", note)
 			}
 		}
